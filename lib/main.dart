@@ -28,13 +28,20 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  List<Icon> scorekeeper = [
-    Icon(Icons.check, color: Colors.green),
-    Icon(Icons.close, color: Colors.red),
-    Icon(Icons.close, color: Colors.red),
-    Icon(Icons.close, color: Colors.red),
-    Icon(Icons.close, color: Colors.red),
-  ];
+  List<Icon> scorekeeper = [];
+
+  void checkAnswer(bool userAnswer) {
+    bool correctAnswer = quizBrain.getQuestionAnswer();
+
+    setState(() {
+      if (userAnswer == correctAnswer) {
+        scorekeeper.add(Icon(Icons.check, color: Colors.green));
+      } else {
+        scorekeeper.add(Icon(Icons.close, color: Colors.red));
+      }
+      quizBrain.nextQuestion();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,18 +80,7 @@ class _QuizPageState extends State<QuizPage> {
                   ),
                 ),
                 onPressed: () {
-                  //The user picked true.
-                  bool correctAnswer = quizBrain.getQuestionAnswer();
-
-                  if (correctAnswer == true) {
-                    print('right');
-                  } else {
-                    print('wrong');
-                  }
-                  setState(() {
-                    scorekeeper.add(Icon(Icons.check, color: Colors.green));
-                    quizBrain.nextQuestion();
-                  });
+                  checkAnswer(true);
                 }),
           ),
         ),
@@ -101,17 +97,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                bool correctAnswer = quizBrain.getQuestionAnswer();
-
-                if (correctAnswer == false) {
-                  print('right');
-                } else {
-                  print('wrong');
-                }
-                //The user picked false.
-                setState(() {
-                  quizBrain.nextQuestion();
-                });
+                checkAnswer(false);
               },
             ),
           ),
