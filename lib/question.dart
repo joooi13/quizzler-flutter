@@ -2,10 +2,7 @@ class Question {
   String questionText;
   bool questionAnswer;
 
-  Question(String q, bool a) {
-    questionAnswer = a;
-    questionText = q;
-  }
+  Question({this.questionText, this.questionAnswer});
 }
 
-Question newQuestion = Question('text', true);
+Question newQuestion = Question(questionText: 'text', questionAnswer: true);
